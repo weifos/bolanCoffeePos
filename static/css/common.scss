@@ -1,0 +1,80 @@
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{background:transparent;border:0;margin:0;outline:0;padding:0;}
+body {line-height:1.2;word-break: break-word;-webkit-tap-highlight-color: transparent;-webkit-user-select:none;}
+
+ol,ul{list-style:none;}
+img{vertical-align: top;}
+blockquote,q{quotes:none;}
+blockquote:before,blockquote:after,q:before,q:after{content:'';content:none;}
+:focus{outline:0;}
+ins{text-decoration:none;}
+del{text-decoration:line-through;}
+table{border-collapse:collapse;border-spacing:0;}
+p,ul,h3,h1,h2,font{margin:0;padding:0;}
+h1,h2,h3{font-size:1em;}
+a:link, a:visited, ins {
+  text-decoration: none;
+}
+/**单行文本溢出加...**/
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+/**2行..**/
+.ellipsis2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+  }
+  
+/**3行...**/
+.ellipsis3 {
+display: -webkit-box;
+-webkit-box-orient: vertical;
+-webkit-line-clamp: 3;
+overflow: hidden;
+}
+
+.rel{position: relative;}
+.abs{position: absolute;}
+.bg{background-repeat: no-repeat;background-size: 100% auto;}
+.fl{float: left;}
+.fr{float: right;}
+.hidden{overflow: hidden;}
+.bold{font-weight: bold;}
+.vam{vertical-align: middle;}
+.vat{vertical-align: top;}
+.border-box{box-sizing: border-box}
+.tal{text-align: left;}
+.tac{text-align: center;}
+.tar{text-align: right;}
+.nowrap{white-space: nowrap;}
+.wrap{white-space: normal;}
+.dib{display: inline-block;}
+.db{display: block;}
+.no-border{border:none;}
+.scroll-y{overflow-y: auto;overflow-x: hidden;}
+.h100{height: 100%;}
+.w100{width: 100%;}
+.top0{top:0}
+.left0{left: 0;}
+
+.mt2{margin-top: 2px;}
+.mt5{margin-top: 5px;}
+.mt10{margin-top: 10px;}
+.mt15{margin-top: 15px;}
+.mt20{margin-top: 20px;}
+.ml5{margin-left: 5px;}
+.ml10{margin-left: 10px;}
+.ml20{margin-left: 20px;}
+.mr10{margin-right: 10px;}
+.mr20{margin-right: 20px;}
+.mb20{margin-bottom: 20px;}
+.mt30{margin-top:30px;}
+
+.pd10{padding: 10px;}
+.pd20{padding: 20px;}
+.pb10{padding-bottom: 10px;}
+.pl10{padding-left: 20px;}
+
