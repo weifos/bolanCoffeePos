@@ -1,0 +1,25 @@
+{
+    "presets": [
+        //下面这个选项是引用插件来处理代码的转换，transform-runtime用来处理全局函数和优化babel编译
+        [
+            "env",
+            {
+                "modules": false,
+                "targets": {
+                    "browsers": [
+                        "> 1%",
+                        "last 2 versions",
+                        "not ie <= 8"
+                    ]
+                }
+            }
+        ],
+        "stage-2"
+    ],
+    //下面这个选项是引用插件来处理代码的转换，transform-runtime用来处理全局函数和优化babel编译
+    "plugins": [
+        "transform-runtime",
+        "syntax-dynamic-import",
+        "transform-vue-jsx"
+    ]
+}
