@@ -10,14 +10,14 @@ module.exports = {
         assetsPublicPath: '/',
         proxyTable: {
             '/api/': {
-                target: 'http://sd.coffee.api.shidian.com/',
+                target: 'http://bl.coffee.api.blbook.cn/',
                 changeOrigin: true,
                 pathRewrite: {
                     '^/api': ''
                 }
             },
             '/res/': {
-                target: 'http://sd.res.shidian.com/',
+                target: 'http://bl.res.blbook.cn/',
                 changeOrigin: true,
                 pathRewrite: {
                     '^/res': ''
@@ -39,9 +39,9 @@ module.exports = {
         // If true, eslint错误和警告也将显示在错误覆盖中。
         // in the browser.
         showEslintErrorsInOverlay: false,
-		/**
-		 * Source Maps
-		 */
+        /**
+         * Source Maps
+         */
         // https://webpack.js.org/configuration/devtool/#development
         devtool: 'eval-source-map',
 
