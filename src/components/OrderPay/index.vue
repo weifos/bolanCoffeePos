@@ -26,7 +26,7 @@
                 <!-- type-e-wallet 电子钱包支付-->
                 <div class="type-e-wallet type-bar height3 pb10 border-box" v-show="curIndex == 1">
                   <div class="bg-white w100 h100 rel">
-                    <p class="font-size-middle tac text-tit">【请扫描十点小程序会员中心的付款码】</p>
+                    <p class="font-size-middle tac text-tit">【请扫描博览小程序会员中心的付款码】</p>
                     <div class="text-wrap">
                       <p class="mt15 tac">
                         付款码：
@@ -171,18 +171,18 @@
                   </div>
                 </div>
 
-                <!-- type-other 商场提货卡-->
-                <div class="type-e-wallet type-bar height3 pb10 border-box" v-show="curIndex == 10">
+                <!-- type-other 商场悦收银-->
+                <div class="type-e-wallet type-bar height3 pb10 border-box" v-show="curIndex == 10 || curIndex == 11">
                   <div class="bg-white w100 h100 rel">
-                    <p class="font-size-middle tac text-tit">【商场提货卡取货】</p>
+                    <p class="font-size-middle tac text-tit">【{{otherPay.inputText }}支付】</p>
                     <div class="text-wrap">
                       <p class="mt15 tac" style="color:red;">该支付方式不支持组合支付</p>
                     </div>
                   </div>
                 </div>
 
-                <!-- type-other 其他支付，显示金额键盘 -->
-                <div class="type-cash type-bar height3" v-show="curIndex == 11 || curIndex == 12">
+                <!-- type-other 其他支付，11商盈通支付 -->
+                <div class="type-cash type-bar height3" v-show="curIndex == 100000000">
                   <div class="value-bar font-size-normal w100 abs">
                     <div class="pd10 border-box bg-white">
                       <ul>
@@ -387,10 +387,10 @@ export default {
         sVCard: 41,
         //现金支付
         cash: 51,
-        //商场提货卡
-        deliveryCard: 103,
-        //美团
-        meiTuan: 104,
+        //商场悦收银
+        Pay1: 32,
+        //商盈通
+        Pay2: 33,
         //华润代金券
         huarunVouchers: 105
       },
@@ -419,13 +419,13 @@ export default {
           text: "其他支付",
           list: [
             {
-              text: "商场提货卡"
+              text: "悦收银"
             },
             {
-              text: "美团"
+              text: "商盈通"
             },
             {
-              text: "华润代金券"
+              text: "--"
             }
           ]
         }
@@ -448,11 +448,15 @@ export default {
       } else if (payMethod == 51) {
         return '现金支付'
       } else if (payMethod == 104) {
-        return '美团收款'
+        return '美团'
       } else if (payMethod == 103) {
         return '商场提货卡'
       } else if (payMethod == 105) {
         return '华润代金券'
+      } else if (payMethod == 32) {
+        return '悦收银'
+      } else if (payMethod == 33) {
+        return '商盈通'
       }
     }
   },
@@ -699,10 +703,10 @@ export default {
       } else if (item.text == '其他支付') {
         //从其它支付方式切换到正常支付
         if (this.otherPayClick) {
-          //清空提货卡支付
-          let index = this.payFlows.findIndex(ele => ele.pay_method === this.payMethod.deliveryCard)
-          //清空美团支付
-          let index1 = this.payFlows.findIndex(ele => ele.pay_method === this.payMethod.meiTuan)
+          //清空悦收银支付
+          let index = this.payFlows.findIndex(ele => ele.pay_method === this.payMethod.Pay1)
+          //清空商盈通支付
+          let index1 = this.payFlows.findIndex(ele => ele.pay_method === this.payMethod.Pay2)
           if (index != -1) this.payFlows.splice(index, 1)
           if (index1 != -1) this.payFlows.splice(index1, 1)
           this.otherPayClick = false
@@ -720,15 +724,20 @@ export default {
         this.payFlows = []
         this.updateAmount()
 
-        if (this.curIndex == 11) {
-          this.otherPay.inputText = '美团收款'
-        } else if (this.curIndex == 12) {
-          this.otherPay.inputText = '华润代金券'
-        } else if (this.curIndex == 10) {
+        if (this.curIndex == 10) {
+          this.otherPay.inputText = '悦收银'
           let curFlow = this.getFlow()
-          curFlow.pay_method = this.payMethod.deliveryCard
+          curFlow.pay_method = this.payMethod.Pay1
           this.payFlows.push(curFlow)
+        } else if (this.curIndex == 11) {
+          this.otherPay.inputText = '商盈通'
+          let curFlow = this.getFlow()
+          curFlow.pay_method = this.payMethod.Pay2
+          this.payFlows.push(curFlow)
+        } else if (this.curIndex == 12) {
+          return
         }
+
         //清空其它支付方式
         this.inputOAmount = 0
         this.inputOAmountText = ''
@@ -788,10 +797,10 @@ export default {
       this.unpaidAmountText = '尚欠金额'
       //获取支付流水
       let curFlow = this.getFlow()
-      //美团收款
+      //悦收银收款
       if (this.curIndex == 11 && this.inputOAmount > 0) {
-        this.otherPay.inputText = '美团收款'
-        curFlow.pay_method = this.payMethod.meiTuan
+        this.otherPay.inputText = '悦收银收款'
+        curFlow.pay_method = this.payMethod.Pay2
         curFlow.amount = this.inputOAmount
 
         let index = this.payFlows.findIndex(item => item.pay_method === curFlow.pay_method)
@@ -800,7 +809,7 @@ export default {
         this.payFlows.push(curFlow)
         this.updateAmount()
       } else if (this.curIndex == 12 && this.inputOAmount > 0) {
-        this.otherPay.inputText = '华润代金券'
+        this.otherPay.inputText = '商盈通收款'
         curFlow.pay_method = this.payMethod.huarunVouchers
 
         let index = this.payFlows.findIndex(item => item.pay_method === curFlow.pay_method)
@@ -1003,14 +1012,9 @@ export default {
       if (that.order.pay_method == 109) {
 
       } else {
-        //美团、提货卡 单一支付
-        if ((that.payFlows.length == 1 && that.payFlows[0].pay_method == that.payMethod.meiTuan || that.payFlows[0].pay_method == that.payMethod.deliveryCard)) {
-          //美团 单一支付
-          if (that.payFlows[0].pay_method == that.payMethod.meiTuan) {
-            that.order.actual_amount = this.inputOAmount
-            that.order.rece_amount = this.inputOAmount
-            that.order.whole_dis_amount = that.order.total_amount - this.inputOAmount
-          }
+        //商盈通、悦收银 单一支付
+        if ((that.payFlows.length == 1 && that.payFlows[0].pay_method == that.payMethod.Pay2 || that.payFlows[0].pay_method == that.payMethod.Pay1)) {
+          that.payFlows[0].amount = that.order.actual_amount
         } else {
           //支付金额是否达到支付条件
           if (this.unpaidAmount - this.dis_odd > 0) {

@@ -109,7 +109,7 @@ export default {
   },
   data() {
     return {
-      pageTitle: '十点书店·咖啡POS',
+      pageTitle: '博览书店·咖啡POS',
       //显示登录弹框
       isLogin: false,
       //显示会员登录弹框

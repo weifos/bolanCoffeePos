@@ -44,7 +44,7 @@ export default {
   methods: {},
   mounted() { },
   created() {
-    localStorage.setItem("pageTitle", "十点读书·咖啡POS")
+    localStorage.setItem("pageTitle", "博览读书·咖啡POS")
     document.getElementById("pageTitle").innerHTML = localStorage.getItem(
       "pageTitle"
     )

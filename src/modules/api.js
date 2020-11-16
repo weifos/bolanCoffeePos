@@ -4,10 +4,10 @@ import md5 from 'blueimp-md5'
 import user from './userInfo'
 
 //接口域名
-let domain = "http://coffeeapi.sdibook.com/"
-let res_domain = "http://res.sdibook.com/"
-// let domain = "http://test.coffeeapi.sdibook.com/"
-// let res_domain = "http://test.res.sdibook.com/"
+// let domain = "http://coffeeapi.blbook.cn/"
+// let res_domain = "http://res.blbook.cn/"
+let domain = "http://bl.coffee.api.blbook.cn/"
+let res_domain = "http://bl.res.blbook.cn/"
 //测试环境配置
 if (process.env.NODE_ENV !== 'production') {
     domain = "/api/"

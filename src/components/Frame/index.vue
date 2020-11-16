@@ -23,7 +23,7 @@
           </div>
         </div>
         <!-- <div class="machine-info mt15">
-          <div class="mt5">会 员：139812345432【十点会员】</div>
+          <div class="mt5">会 员：139812345432【博览会员】</div>
         </div>-->
       </div>
       <div class="content-bar">
