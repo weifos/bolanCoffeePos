@@ -378,11 +378,16 @@ export default {
     //可退订单（流水和金额）
     api_215(order) {
       let that = this
+
+      //这里签名失败，暂时处理办法
+      delete order.whole_discount
+      delete order.whole_dis_amount
       api.post(api.api_215, api.getSign({
         StoreID: order.store_id,
         SerialNo: order.serial_no
       }), function (vue, res) {
         if (res.data.Basis.State == api.state.state_200) {
+          that.$vux.toast.text('退款成功', 'default', 3000)
           that.api_211(order, res.data.Result)
         } else {
           that.$vux.toast.text(res.data.Basis.Msg, 'default', 3000)

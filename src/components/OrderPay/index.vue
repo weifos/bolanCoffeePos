@@ -171,8 +171,8 @@
                   </div>
                 </div>
 
-                <!-- type-other 商场悦收银-->
-                <div class="type-e-wallet type-bar height3 pb10 border-box" v-show="curIndex == 10 || curIndex == 11">
+                <!-- type-other 商场悦收银、商盈通、刷卡支付-->
+                <div class="type-e-wallet type-bar height3 pb10 border-box" v-show="curIndex == 10 ||curIndex == 11 ||curIndex == 12">
                   <div class="bg-white w100 h100 rel">
                     <p class="font-size-middle tac text-tit">【{{otherPay.inputText }}支付】</p>
                     <div class="text-wrap">
@@ -181,8 +181,8 @@
                   </div>
                 </div>
 
-                <!-- type-other 其他支付，11商盈通支付 -->
-                <div class="type-cash type-bar height3" v-show="curIndex == 100000000">
+                <!-- type-other 61银行卡支付 -->
+                <div class="type-cash type-bar height3" v-show="curIndex == 11111111">
                   <div class="value-bar font-size-normal w100 abs">
                     <div class="pd10 border-box bg-white">
                       <ul>
@@ -199,7 +199,7 @@
                     </div>
                   </div>
                   <div class="input-bar w100 abs">
-                    <input type="text" class="input-text-1 input-normal" style="font-size:20px;" v-model="inputOAmountText" placeholder="请输入金额" />
+                    <input type="text" class="input-text-1 input-normal" style="font-size:20px;" v-model="inputOAmountText" placeholder="请输入银行卡支付金额" />
                   </div>
                   <div class="btns-bar border-box h100 rel">
                     <div class="f-item btn-sure">
@@ -391,6 +391,8 @@ export default {
         Pay1: 32,
         //商盈通
         Pay2: 33,
+        //银行卡
+        BankCard: 61,
         //华润代金券
         huarunVouchers: 105
       },
@@ -425,7 +427,7 @@ export default {
               text: "商盈通"
             },
             {
-              text: "--"
+              text: "刷卡支付"
             }
           ]
         }
@@ -447,6 +449,8 @@ export default {
         return '储值卡支付'
       } else if (payMethod == 51) {
         return '现金支付'
+      } else if (payMethod == 61) {
+        return '刷卡支付'
       } else if (payMethod == 104) {
         return '美团'
       } else if (payMethod == 103) {
@@ -602,6 +606,7 @@ export default {
       } else {
         this.inputOAmount = 0
         this.inputOAmountText = ''
+
         if (this.curIndex == 11) {
           this.payFlows.splice(this.payFlows.findIndex(item => item.pay_method === 11), 1)
         } else if (this.curIndex == 12) {
@@ -690,7 +695,6 @@ export default {
 
       this.curIndex = index
       let item = this.payList[index]
-
       if (item.text == '移动支付') {
         setTimeout(() => { this.$refs.pCode.focus() }, 100)
       } else if (item.text == '电子钱包') {
@@ -717,6 +721,8 @@ export default {
     },
     //选择其他支付方式
     selectOtherPay(index) {
+      console.log(index)
+
       if (index != this.curIndex) {
         //清空其它支付流水
         this.curIndex = index
@@ -733,6 +739,11 @@ export default {
           this.otherPay.inputText = '商盈通'
           let curFlow = this.getFlow()
           curFlow.pay_method = this.payMethod.Pay2
+          this.payFlows.push(curFlow)
+        } else if (this.curIndex == 12) {
+          this.otherPay.inputText = '银行卡'
+          let curFlow = this.getFlow()
+          curFlow.pay_method = this.payMethod.BankCard
           this.payFlows.push(curFlow)
         } else if (this.curIndex == 12) {
           return
@@ -768,10 +779,10 @@ export default {
       curFlow.pay_method = this.payMethod.cash
       //输入金额大于未缴纳金额
       if (this.inputAmount > (this.unpaidAmount - this.dis_odd)) {
-        curFlow.amount = this.unpaidAmount - this.dis_odd
+        curFlow.amount = parseFloat(this.unpaidAmount - this.dis_odd)
         this.changeAmount = this.inputAmount - curFlow.amount
       } else {
-        curFlow.amount = this.inputAmount
+        curFlow.amount = parseFloat(this.inputAmount)
         this.changeAmount = 0
       }
 
@@ -809,8 +820,8 @@ export default {
         this.payFlows.push(curFlow)
         this.updateAmount()
       } else if (this.curIndex == 12 && this.inputOAmount > 0) {
-        this.otherPay.inputText = '商盈通收款'
-        curFlow.pay_method = this.payMethod.huarunVouchers
+        this.otherPay.inputText = '银行卡收款'
+        curFlow.pay_method = this.payMethod.BankCard
 
         let index = this.payFlows.findIndex(item => item.pay_method === curFlow.pay_method)
         if (index != -1) this.payFlows.splice(index, 1)
@@ -1013,7 +1024,8 @@ export default {
 
       } else {
         //商盈通、悦收银 单一支付
-        if ((that.payFlows.length == 1 && that.payFlows[0].pay_method == that.payMethod.Pay2 || that.payFlows[0].pay_method == that.payMethod.Pay1)) {
+        if ((that.payFlows.length == 1 && that.payFlows[0].pay_method == that.payMethod.Pay2 || that.payFlows[0].pay_method == that.payMethod.Pay1
+          || that.payFlows[0].pay_method == that.payMethod.BankCard)) {
           that.payFlows[0].amount = that.order.actual_amount
         } else {
           //支付金额是否达到支付条件
@@ -1042,6 +1054,10 @@ export default {
         PayCode: that.payCode,
         Order: that.order
       }
+
+      //这里签名失败，暂时处理办法
+      delete params.Order.whole_discount
+      delete params.Order.whole_dis_amount
       console.log(params)
       //   return
       if (!that.isPay) {

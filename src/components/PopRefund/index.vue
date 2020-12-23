@@ -215,6 +215,10 @@ export default {
     //退货退款
     api_211() {
       let that = this
+
+      //这里签名失败，暂时处理办法
+      delete that.order.whole_discount
+      delete that.order.whole_dis_amount
       api.post(api.api_211, api.getSign({
         OrderReturns: that.order
       }), function (vue, res) {

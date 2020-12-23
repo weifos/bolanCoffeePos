@@ -8,13 +8,8 @@
 </template>
 <script>
 
-import { Howl, Howler } from 'howler'
-import store from '@/store'
 import { Loading, cookie, querystring } from "vux"
 import { mapState } from "vuex"
-import api from '@/modules/api'
-import app_g from "./modules/appGlobal"
-import app_m from "@/modules/appMiddleware"
 
 export default {
   name: "app",

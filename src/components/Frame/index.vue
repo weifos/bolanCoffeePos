@@ -48,7 +48,7 @@
       <div class="tool-bar abs bg-white hidden">
         <div class="right-side fr">
           <Icon type="daily"></Icon>
-          <Icon type="transformDuty"></Icon>
+          <!-- <Icon type="transformDuty"  ></Icon> -->
           <Icon type="loginOut"></Icon>
         </div>
         <div class="left-side">

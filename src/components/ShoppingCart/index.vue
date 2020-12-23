@@ -125,18 +125,21 @@ export default {
           created_user_id: that.UserInfo.user.id,
           store_details: tmps
         }
-        api.post(api.api_203, api.getSign({
-          Order: data,
-        }), function (vue, res) {
+
+        api.post(api.api_203, api.getSign({ Order: data }), function (vue, res) {
           if (res.data.Basis.State == api.state.state_200) {
             that.count = 0
             that.total = 0
             that.clearShoppingCart()
             that.UserInfo.member = { id: 0 }
-            //更新父级组件
-            that.$emit('submitOrder', res.data.Result)
-            //更新父级组件
-            that.$emit('clearMember', res.data.Result)
+
+            setTimeout(() => {
+              //更新父级组件
+              that.$emit('submitOrder', res.data.Result)
+              //更新父级组件
+              that.$emit('clearMember', res.data.Result)
+            }, 500);
+
           } else {
             that.$vux.toast.text(res.data.Basis.Msg, 'default', 3000)
           }

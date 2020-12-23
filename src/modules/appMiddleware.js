@@ -17,6 +17,16 @@ export default {
             callback(this.devInfo)
         }
     },
+    //设置当前打印机配置
+    setLocalDevInfo(pos_id, callback) {
+        try {
+            if (app_middleware != undefined) {
+                app_middleware.setDeviceInfo(pos_id, callback)
+            }
+        } catch (ex) {
+            callback(this.devInfo)
+        }
+    },
     //调用打印
     print(store_id, sys_user_id, order_no, type, callback) {
         try {

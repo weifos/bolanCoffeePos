@@ -321,6 +321,9 @@ export default {
           let pos = app_g.getPos()
           res.data.Result.last_online_id = ((pos == undefined || pos.last_online_id == undefined) ? 0 : pos.last_online_id)
           app_g.setPos(res.data.Result)
+          app_m.setLocalDevInfo(res.data.Result.id, function () {
+            console.log('回调了')
+          })
         } else {
           that.$vux.toast.text(res.data.Basis.Msg, 'default', 3000)
           router.push({ path: "./auth" })

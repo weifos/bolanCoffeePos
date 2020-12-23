@@ -80,6 +80,7 @@
 </template>
 <script>
 
+import store from '@/store'
 import api from '@/modules/api'
 import app_g from '@/modules/appGlobal'
 
@@ -130,10 +131,12 @@ export default {
       let that = this
       that.init()
       that.totalCount = 0
+      //that.$vux.loading.show({ text: '订单加载中' })
       api.post(api.api_204, api.getSign({
         StoreID: app_g.getPos().store_id,
         OrderNo: order_no
       }), function (vue, res) {
+        //that.$vux.loading.hide()
         if (res.data.Basis.State == api.state.state_200) {
           that.result = res.data.Result
           let maxAmount = that.result.vip_dis_amount > that.result.mkt_dis_amount ? that.result.vip_dis_amount : that.result.mkt_dis_amount
@@ -162,6 +165,10 @@ export default {
     //扫码获取优惠券
     api_217(couponCode) {
       let that = this
+      //这里签名失败，暂时处理办法
+      delete that.result.whole_discount
+      delete that.result.whole_dis_amount
+
       api.post(api.api_217, api.getSign({
         No: couponCode,
         Module: 2,

@@ -50,6 +50,7 @@
       </div>
       <div class="icon-text">打印日结</div>
     </template>
+    <!-- 显示交接班删除下划线即可 -->
     <template v-if="type == 'transformDuty'">
       <div class="icon-img">
         <img src="./img/i3.png" />
