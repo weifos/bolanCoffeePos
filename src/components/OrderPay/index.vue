@@ -539,6 +539,7 @@ export default {
       //未支付的金额
       this.changeAmount = 0
       this.member = { balance: 0 }
+
       this.updateAmount()
     },
     //获取支付流水
@@ -733,16 +734,19 @@ export default {
         if (this.curIndex == 10) {
           this.otherPay.inputText = '悦收银'
           let curFlow = this.getFlow()
+          curFlow.amount = this.unpaidAmount
           curFlow.pay_method = this.payMethod.Pay1
           this.payFlows.push(curFlow)
         } else if (this.curIndex == 11) {
           this.otherPay.inputText = '商盈通'
           let curFlow = this.getFlow()
+          curFlow.amount = this.unpaidAmount
           curFlow.pay_method = this.payMethod.Pay2
           this.payFlows.push(curFlow)
         } else if (this.curIndex == 12) {
           this.otherPay.inputText = '银行卡'
           let curFlow = this.getFlow()
+          curFlow.amount = this.unpaidAmount
           curFlow.pay_method = this.payMethod.BankCard
           this.payFlows.push(curFlow)
         } else if (this.curIndex == 12) {
@@ -1058,8 +1062,7 @@ export default {
       //这里签名失败，暂时处理办法
       delete params.Order.whole_discount
       delete params.Order.whole_dis_amount
-      console.log(params)
-      //   return
+
       if (!that.isPay) {
         api.post(api.api_205, api.getSign(params), function (vue, res) {
           if (res.data.Basis.State == api.state.state_200) {

@@ -9,12 +9,12 @@
           <div class="form-head list-inlineblock tac abs">
             <div class="head-item f-item w3 bg-gray text-white">小票号</div>
             <div class="head-item f-item w4 bg-gray text-white">订单编号</div>
-            <div class="head-item f-item w2 bg-gray text-white">下单时间</div>
+            <div class="head-item f-item w5 bg-gray text-white">下单时间</div>
             <div class="head-item f-item w1 bg-gray text-white">用户账号</div>
             <div class="head-item f-item w1 bg-gray text-white">订单金额</div>
             <div class="head-item f-item w1 bg-gray text-white">商品数/已退数</div>
             <div class="head-item f-item w1 bg-gray text-white">订单状态</div>
-            <div class="head-item f-item w2 bg-gray text-white">操作</div>
+            <div class="head-item f-item w22 bg-gray text-white">操作</div>
           </div>
           <div class="tab-c h100 cur">
             <div class="form-body tac text-gray">
@@ -27,7 +27,7 @@
                     <div class="body-item f-item w4">
                       <div class="align">{{item.serial_no}}</div>
                     </div>
-                    <div class="body-item f-item w2">
+                    <div class="body-item f-item w5">
                       <div class="align">{{item.created_date}}</div>
                     </div>
                     <div class="body-item f-item w1">
@@ -42,10 +42,10 @@
                     <div class="body-item f-item w1">
                       <div class="align">已完成</div>
                     </div>
-                    <div class="body-item f-item w2">
+                    <div class="body-item f-item w22">
                       <div class="align">
-                        <span class="item-link mr20" style="color:#0033FF;" @click="printReceipt(item)">打印小票</span>
-                        <span class="item-link mr20" style="color:#0033FF;" @click="goDetails(item)">查看</span>
+                        <span class="item-link mr5" style="color:#0033FF;" @click="printReceipt(item)">打小票</span>
+                        <span class="item-link mr5" style="color:#0033FF;" @click="goDetails(item)">查看</span>
                         <span class="item-link" style="color:#0033FF;" v-if="item.status == 1 && !item.is_pay" @click="goPay(item)">继续付款</span>
                         <template v-else>
                           <span class="item-link" style="color:#0033FF;" @click="refund(item)" v-if="item.count > item.refund_count">全部退款</span>
@@ -525,6 +525,12 @@ export default {
     }
     .w4 {
       width: 15%;
+    }
+    .w5 {
+      width: 18%;
+    }
+    .w22 {
+      width: 22%;
     }
 
     .status-bar {
