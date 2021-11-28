@@ -6,14 +6,14 @@
         <div class="form-order-sure abs border-box">
           <div class="form-wrap bg-white rel">
             <div class="bg-main text-white tac font-size-middle font-tit">订单确认</div>
-            <div class="form-con h100 border-box pd20">
+            <div class="form-con h100 border-box pd10">
               <div class="row hidden">
                 <div class="order-time fr">下单时间：{{result.created_date }}</div>
                 <div class="order-no">订单编号：{{result.serial_no }}</div>
               </div>
-              <div class="row mt20">
+              <div class="row mt10">
                 <!-- <div class="row-name">商品信息：</div> -->
-                <div class="form-1 bg-white rel mt10">
+                <div class="form-1 bg-white rel">
                   <div class="form-head list-inlineblock tac">
                     <div class="head-item f-item w2 bg-gray text-white">品名</div>
                     <div class="head-item f-item w1 bg-gray text-white">数量</div>
@@ -62,6 +62,16 @@
                           </div>
                           <div class="total-price w1 f-item size-big"></div>
                         </div>
+                        <div class="row list-inlineblock mt10" v-if="member.canPoint > 0" style="display:none;">
+                          <div class="total-name w4 f-item tal border-box pl20 size-big" style="width:70%">
+                            可抵扣积分
+                            <span style="color:red;">{{member.canPoint}}积分</span>
+                          </div>
+                          <div class="total-price w1 f-item size-big" style="width:30%">
+                            可抵扣{{member.canPoint/100}}元
+                            <input type="checkbox" :value="member.canPoint/100" v-model="pointToAmount" />
+                          </div>
+                        </div>
                       </div>
                       <div class="btns-bar">
                         <button class="button round bg-main text-white button-size-normal" @click="submit">确认</button>
@@ -85,8 +95,12 @@ import api from '@/modules/api'
 import app_g from '@/modules/appGlobal'
 
 export default {
-  data() {
+  data () {
     return {
+      member: {
+        point: 0,
+        canPoint: 0
+      },
       curIndex: 1,
       //最终优惠金额
       discounts: 0,
@@ -99,6 +113,8 @@ export default {
       couponCodeText: '',
       //是否回车加载中
       isEnterLoading: false,
+      //是否使用积分抵扣
+      pointToAmount: false,
       result: {
         no: "",
         time: "",
@@ -120,14 +136,18 @@ export default {
     }
   },
   methods: {
-    init() {
-      setTimeout(() => { this.$refs.userCouponCode.focus() }, 100)
+    init () {
+      //setTimeout(() => { this.$refs.userCouponCode.focus() }, 100)
       this.isEnterLoading = false
       this.couponCode = ''
       this.couponCodeText = ''
+      //消费的会员信息
+      this.member = this.UserInfo.member
+      //保留10的倍数
+      this.member.canPoint = parseInt(this.member.point / 10) * 10
     },
     //加载订单明细
-    api_204(order_no) {
+    api_204 (order_no) {
       let that = this
       that.init()
       that.totalCount = 0
@@ -163,7 +183,7 @@ export default {
       })
     },
     //扫码获取优惠券
-    api_217(couponCode) {
+    api_217 (couponCode) {
       let that = this
       //这里签名失败，暂时处理办法
       delete that.result.whole_discount
@@ -207,7 +227,7 @@ export default {
       })
     },
     //更新订单优惠券
-    api_218() {
+    api_218 () {
       let that = this
       api.post(api.api_218, api.getSign({
         StoreID: that.result.store_id,
@@ -228,7 +248,7 @@ export default {
       })
     },
     //扫优惠券码
-    enterCouponCode() {
+    enterCouponCode () {
 
       if (!this.isEnterLoading) {
         this.isEnterLoading = true
@@ -240,13 +260,13 @@ export default {
       }
     },
     //优惠券码输入框失去焦点事件
-    couponCodeBlur() {
+    couponCodeBlur () {
       if (this.$refs.userCouponCode != undefined) {
         setTimeout(() => { try { this.$refs.userCouponCode.focus() } catch (ex) { } }, 100)
       }
     },
     //确认提交
-    submit() {
+    submit () {
       if (this.result.coupon_amount > this.result.vip_dis_amount && this.result.coupon_amount > this.result.mkt_dis_amount) {
         this.api_218()
       } else {
@@ -254,7 +274,7 @@ export default {
       }
     },
     //取消订单
-    cancel() {
+    cancel () {
       this.$emit('cancelOrder', this.result.serial_no)
     }
   }
@@ -264,8 +284,8 @@ export default {
 <style lang="scss">
 .order-sure {
   .font-tit {
-    height: 57px;
-    line-height: 57px;
+    height: 40px;
+    line-height: 40px;
   }
   .form-order-sure {
     width: 700px;
@@ -331,7 +351,7 @@ export default {
 
     .total-bar {
       border-top: 1px solid #acacac;
-      padding-top: 20px;
+      padding-top: 10px;
       height: 85px;
 
       .size-big {
@@ -343,7 +363,7 @@ export default {
       }
     }
     .btns-bar {
-      margin-top: 35px;
+      margin-top: 90px;
       .button {
         margin: 0 30px;
       }

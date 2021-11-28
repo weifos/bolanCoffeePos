@@ -107,7 +107,7 @@ export default {
     OrderSure,
     OrderDetails
   },
-  data() {
+  data () {
     return {
       pageTitle: '博览书店·咖啡POS',
       //显示登录弹框
@@ -149,43 +149,43 @@ export default {
   },
   methods: {
     //子组件通知父组件，处理关闭
-    closeOrderPay() {
+    closeOrderPay () {
       this.clearScreen()
       this.showProductList = true
     },
     //子组件通知父组件，会员登录弹框
-    memberLogin() {
+    memberLogin () {
       store.commit('setShowDialog', { showDialog: true })
       this.isMemberLogin = true
       this.$refs.popMember.init()
     },
     //子组件通知父组件，会员登录
-    loginMember(result) {
+    loginMember (result) {
       store.commit('setShowDialog', { showDialog: false })
       this.isMemberLogin = false
       this.$refs.frame.updateMember(result)
     },
     //子组件通知父组件，修改角标
-    num(result) {
+    num (result) {
       this.$refs.frame.updateIconNum(result)
     },
     //子组件通知父组件，会员登录
-    loginOutMember() {
+    loginOutMember () {
       this.$refs.frame.loginOutMember()
     },
     //子组件通知父组件，处理组件登录成功
-    lgSuccess(data) {
+    lgSuccess (data) {
       this.isLogin = true
       this.user = data
       this.loadProducts()
     },
     //子组件通知父组件，加载商品信息
-    loadProducts() {
+    loadProducts () {
       //同时父组件通知商品列表子组件
       this.$refs.pList.api_200()
     },
     //子组件通知父组件，加载商品SKU信息
-    loadSKU(data) {
+    loadSKU (data) {
       this.clearScreen()
       this.showProductSku = true
       this.$store.commit('setTitle', { title: data.name })
@@ -193,71 +193,71 @@ export default {
       this.$refs.pSKU.api_202(data)
     },
     //更新购物车信息
-    updateShoppingCart() {
+    updateShoppingCart () {
       this.$refs.shoppingCart.upShoppingCart()
     },
     //确认订单
-    confirmOrder(data) {
+    confirmOrder (data) {
       this.$store.commit('setTitle', { title: '单号：' + data })
       this.clearScreen()
       this.showConfirmOrder = true
       this.$refs.orderSure.api_204(data)
     },
     //订单付款
-    goPay(data) {
+    goPay (data) {
       this.clearScreen()
       this.$store.commit('setTitle', { title: '订单结算：' + data.serial_no })
       this.showOrderPay = true
       this.$refs.payOrder.init(data)
     },
     //订单详情
-    goOrderDetails(data) {
+    goOrderDetails (data) {
       this.clearScreen()
       this.showOrderDetails = true
       this.$refs.orderDetails.init(data)
     },
     //显示退款框
-    goPopRefund(data, item) {
+    goPopRefund (data, item) {
       store.commit('setShowDialog', { showDialog: true })
       this.showPopRefund = true
       this.$refs.popRefund.init(data, item)
     },
     //取消订单
-    cancelOrder() {
+    cancelOrder () {
       this.clearScreen()
       this.$refs.orderList.init()
       this.showOrderList = true
     },
     //取消会员登录
-    cancelMember() {
+    cancelMember () {
       store.commit('setShowDialog', { showDialog: false })
       this.isMemberLogin = false
     },
     //支付成功
-    paySuccess() {
+    paySuccess () {
       this.clearScreen()
       this.$store.commit('setTitle', { title: '订单列表' })
       this.showNotDoneOrder = true
       this.$refs.notDoneOrder.init()
     },
     //挂单
-    submitEntryOrder() {
+    submitEntryOrder () {
       this.clearScreen()
       this.showOrderEntry = true
       this.$refs.orderEntry.init()
     },
     //取消退款
-    cancelRefund() {
+    cancelRefund () {
       this.showPopRefund = false
       store.commit('setShowDialog', { showDialog: false })
     },
     //子组件通知父组件，关闭商品SKU信息
-    closeSKU() {
+    closeSKU () {
       this.clearScreen()
       this.showProductList = true
     },
     //清屏
-    clearScreen() {
+    clearScreen () {
       this.showOrderEntry = false
       this.showProductList = false
       this.showProductSku = false
@@ -270,7 +270,7 @@ export default {
       this.showOnLineOrderList = false
     },
     //底部菜单导航
-    nav(type) {
+    nav (type) {
       //清屏
       this.clearScreen()
 
@@ -312,7 +312,7 @@ export default {
 
     },
     //检查设备
-    api_100(pos) {
+    api_100 (pos) {
       let that = this
       api.post(api.api_100, api.getSign({
         Pos: pos
@@ -331,7 +331,7 @@ export default {
       })
     }
   },
-  created() {
+  created () {
     this.$store.commit('setTitle', { title: '选择商品' })
     let that = this
     //当前POS设备是否绑定

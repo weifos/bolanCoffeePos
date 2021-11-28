@@ -37,13 +37,12 @@
   </div>
 </template>
 <script>
-import router from '@/router'
+
 import api from '@/modules/api'
 import app_g from '@/modules/appGlobal'
-import user from '@/modules/userInfo'
 
 export default {
-  data() {
+  data () {
     return {
       cindex: -1,
       count: 0,
@@ -53,17 +52,17 @@ export default {
   },
   methods: {
     //获取本地购物车
-    upShoppingCart() {
+    upShoppingCart () {
       this.list = app_g.getShoppingCart()
       this.updateStats()
     },
     //清空本地购物车
-    clearShoppingCart() {
+    clearShoppingCart () {
       this.list = []
       app_g.clearShoppingCart()
     },
     //加
-    add(item) {
+    add (item) {
       if (item.count + 1 >= 99) {
         this.$vux.toast.text('最大数量不能超过99', 'default', 3000)
         return
@@ -77,7 +76,7 @@ export default {
       this.upShoppingCart()
     },
     //减
-    sub(item) {
+    sub (item) {
       if (item.count - 1 < 1) return
       let tmp = {
         sto_product_id: item.sto_product_id,
@@ -88,18 +87,18 @@ export default {
       this.upShoppingCart()
     },
     //选中
-    selected(index) {
+    selected (index) {
       this.cindex = index
     },
     //删除
-    del() {
+    del () {
       if (this.cindex != -1) {
         app_g.delShoppingCart(this.cindex)
         this.list = app_g.getShoppingCart()
       }
     },
     //更新统计
-    updateStats() {
+    updateStats () {
       this.count = 0
       this.total = 0
       let tmps = app_g.getShoppingCart()
@@ -109,7 +108,7 @@ export default {
       })
     },
     //结算
-    api_203() {
+    api_203 () {
       let that = this
       let tmps = app_g.getShoppingCart()
 
@@ -131,13 +130,13 @@ export default {
             that.count = 0
             that.total = 0
             that.clearShoppingCart()
-            that.UserInfo.member = { id: 0 }
+            //that.UserInfo.member = { id: 0 }
 
             setTimeout(() => {
               //更新父级组件
               that.$emit('submitOrder', res.data.Result)
               //更新父级组件
-              that.$emit('clearMember', res.data.Result)
+              //that.$emit('clearMember', res.data.Result)
             }, 500);
 
           } else {
@@ -147,7 +146,7 @@ export default {
       }
     },
     //挂单
-    api_212() {
+    api_212 () {
       let that = this
       let tmps = app_g.getShoppingCart()
       if (tmps.length > 0) {
@@ -173,7 +172,7 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     this.upShoppingCart()
   }
 }

@@ -33,7 +33,7 @@ import app_g from '@/modules/appGlobal'
 import app_m from "@/modules/appMiddleware"
 
 export default {
-  data() {
+  data () {
     return {
       curIndex: 0,
       //是否回车加载中
@@ -46,7 +46,7 @@ export default {
   },
   filters: {
     //获取支付方式名称
-    getPayMethodName(payMethod) {
+    getPayMethodName (payMethod) {
       if (payMethod == 11) {
         return '微信支付'
       } else if (payMethod == 21) {
@@ -83,7 +83,7 @@ export default {
     }
   },
   computed: {
-    tmpFlows() {
+    tmpFlows () {
       let tmp = []
       let svItem = {}
       let total_amount = 0
@@ -108,14 +108,13 @@ export default {
     }
   },
   methods: {
-    init() {
+    init () {
       setTimeout(() => { this.$refs.inputLoginName.focus() }, 100)
       this.inputLoginName = ''
       this.isEnterLoading = false
     },
     //扫会员码
-    enterInputLoginName() {
-
+    enterInputLoginName () {
       if (!this.isEnterLoading) {
         this.isEnterLoading = true
         if (this.inputLoginName.length == 11) {
@@ -126,7 +125,7 @@ export default {
         }
       }
     },
-    loginNameBlur() {
+    loginNameBlur () {
       if (this.$refs.inputLoginName != undefined) {
         setTimeout(() => {
           try {
@@ -139,7 +138,7 @@ export default {
       }
     },
     //删除
-    del(n) {
+    del (n) {
       let len = this.inputLoginName.length
       if (len > 0) {
         if (len - 1 <= 0) {
@@ -150,17 +149,17 @@ export default {
       }
     },
     //显示的金额
-    clearInputText(payType) {
+    clearInputText (payType) {
       this.inputLoginName = ''
     },
     //现金支付点击
-    getNum(n) {
+    getNum (n) {
       if (this.inputLoginName.length < 11) {
         this.inputLoginName = this.inputLoginName + '' + n
       }
     },
     //会员登录
-    api_216() {
+    api_216 () {
       let that = this
       if (this.inputLoginName.length == 0) {
         that.$vux.toast.text('请输入用户名', 'default', 3000)
@@ -184,15 +183,15 @@ export default {
       })
     },
     //取消会员弹出框
-    cancel() {
+    cancel () {
       this.$emit('cancelMember')
     },
     //清空会员信息
-    clearMember() {
+    clearMember () {
       this.member = { id: 0, mobile: '----', balance: 0, dis_count: 0.99, integral: 0, coupon: { type: 0, amount: 0.0 } }
     },
     //根据用户码获取会员信息
-    api_208(code, user_id) {
+    api_208 (code, user_id) {
       let that = this
       api.post(api.api_208, api.getSign({ UserCode: code }), function (vue, res) {
         if (res.data.Basis.State == api.state.state_200) {

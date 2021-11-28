@@ -1079,6 +1079,13 @@ export default {
             if (unpaidAmount) {
               that.unpaidAmount = unpaidAmount
             }
+
+            var last = that.payFlows[that.payFlows.length - 1]
+            if (that.payFlows.length >= 1 && (last.pay_method == 11 || last.pay_method == 21 || last.pay_method == 31 || last.pay_method == 41)) {
+              var index = that.payFlows.findIndex(item => item.serial_no === last.serial_no)
+              that.payFlows.splice(index, 1)
+            }
+
             that.$vux.toast.text(res.data.Basis.Msg, 'default', 3000)
           }
         })

@@ -12,12 +12,17 @@
           </div>
           <div class="user-txt">
             <div class="user-name bold">收银员：{{userInfo.login_name}}</div>
-            <div class="user-identity mt5">
+            <div class="user-identity" v-if="member.id > 0">
               <span class="icon icon-arrow dib vam"></span>
-              <span class="dib vam" v-if="member.id > 0" style="font-size:12px;">
+              <span class="dib vam" style="font-size:12px;">
                 会员手机：{{member.login_name}}，{{member.level}}折扣：{{member.dis_count * 10}}折
                 <span class="button-border-cur" @click="cLoginOutMember">退出</span>
               </span>
+              <!-- <span class="dib vam ml10">{{userInfo.user_name}}</span> -->
+            </div>
+            <div class="user-identity" v-if="member.id > 0">
+              <span class="icon icon-arrow dib vam"></span>
+              <span class="dib vam" style="font-size:12px;">会员积分：{{member.point}}，电子钱包：{{member.balance }}</span>
               <!-- <span class="dib vam ml10">{{userInfo.user_name}}</span> -->
             </div>
           </div>
@@ -85,18 +90,14 @@ export default {
   watch: {
     result: function (newData, oldData) {
       if (newData.id) {
-        if (
-          newData.head_img == undefined ||
-          newData.head_img == null ||
-          newData.head_img.length == 0
-        ) {
+        if (newData.head_img == undefined || newData.head_img == null || newData.head_img.length == 0) {
           newData.head_img = "../../static/img/user.png";
         }
         this.userInfo = newData;
       }
     }
   },
-  data() {
+  data () {
     return {
       userInfo: {
         head_img: "../../static/img/user.png",
@@ -136,7 +137,7 @@ export default {
   },
   methods: {
     //小程序订单实时处理
-    initOrderNty() {
+    initOrderNty () {
       let that = this;
       if (process.env.NODE_ENV === 'production') {
         if (that.notifier.timer == null) {
@@ -145,33 +146,32 @@ export default {
           }, 6000);
         }
       }
-
     },
     //检查设备
-    nav(type) {
+    nav (type) {
       this.$emit("nav", type);
     },
     //会员登录
-    memberLogin() {
+    memberLogin () {
       this.$emit("memberLogin");
     },
     //登出登录会员信息
-    cLoginOutMember() {
+    cLoginOutMember () {
       let that = this;
       this.$vux.confirm.show({
         title: "确认退出登录吗",
-        onCancel() { },
-        onConfirm() {
+        onCancel () { },
+        onConfirm () {
           that.loginOutMember();
         }
       });
     },
     //更新登录会员信息
-    updateMember(result) {
+    updateMember (result) {
       this.member = result;
     },
     //更新角标
-    updateIconNum(result) {
+    updateIconNum (result) {
       console.log(result)
       if (result.status == 3) this.iconNum.notDoneOrderNum = result.num
       else if (result.status == 10) {
@@ -186,13 +186,13 @@ export default {
       }
     },
     //登出登录会员信息
-    loginOutMember() {
+    loginOutMember () {
       //清空会员信息
       this.UserInfo.loginOutMember();
       this.member = { id: 0 };
     },
     //显示当前时间（年月日时分秒）
-    timeFormate(timeStamp) {
+    timeFormate (timeStamp) {
       let year = new Date(timeStamp).getFullYear();
       let month =
         new Date(timeStamp).getMonth() + 1 < 10
@@ -228,17 +228,17 @@ export default {
         ":" +
         ss;
     },
-    nowTimes() {
+    nowTimes () {
       this.timeFormate(new Date());
       setInterval(this.nowTimes, 1000);
       this.clear();
     },
-    clear() {
+    clear () {
       clearInterval(this.nowTimes);
       this.nowTimes = null;
     },
     //咖啡pos实时查询
-    api_219() {
+    api_219 () {
       let that = this;
       let pos = app_g.getPos();
 
@@ -303,17 +303,13 @@ export default {
       }
     }
   },
-  created() {
+  created () {
     this.nowTimes();
     this.initOrderNty();
     //如果已登录，刷新用户信息
     if (this.UserInfo.islogin()) {
       this.userInfo = this.UserInfo.user;
-      if (
-        this.userInfo.head_img == undefined ||
-        this.userInfo.head_img == null ||
-        this.userInfo.head_img.length == 0
-      ) {
+      if (this.userInfo.head_img == undefined || this.userInfo.head_img == null || this.userInfo.head_img.length == 0) {
         this.userInfo.head_img = "../../static/img/user.png";
       }
     }
@@ -355,7 +351,7 @@ export default {
   .user-info {
     .user-name,
     .user-identity {
-      font-size: 18px;
+      font-size: 15px;
     }
     .user-img {
       width: 59px;
@@ -412,11 +408,11 @@ export default {
     transform: translateY(-50%);
 
     &:after {
-      content: "";
+      content: '';
       position: absolute;
       left: 0;
       top: 0;
-      background: url("../../../static/img/search.png") no-repeat 0 0/100% auto;
+      background: url('../../../static/img/search.png') no-repeat 0 0/100% auto;
       z-index: 1;
       width: 16px;
       height: 16px;
