@@ -1071,6 +1071,8 @@ export default {
             app_m.print(app_g.getPos().store_id, that.UserInfo.user.id, that.order.serial_no, 0, () => {
               console.log('打印回调')
             })
+
+            that.loginOutMember()
             //支付成功
             that.$emit('paySuccess')
             //打印
@@ -1113,7 +1115,6 @@ export default {
             that.payFlows.push(curFlow)
             //显示电子钱包付清余额
             that.eWalletPayOffBalance = that.member.balance - that.unpaidAmount
-
 
             setTimeout(() => {
               that.api_205()
@@ -1176,6 +1177,10 @@ export default {
     //关闭
     close () {
       this.$emit('closeOrderPay')
+    },
+    //退出会员
+    loginOutMember () {
+      this.$emit('loginOutMember')
     }
   }
 }

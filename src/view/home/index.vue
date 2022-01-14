@@ -19,7 +19,7 @@
         <OrderSure ref="orderSure" :show="showConfirmOrder" v-on:paySuccess="paySuccess" v-on:goPay="goPay" v-on:cancelOrder="cancelOrder"></OrderSure>
 
         <!-- 订单付款 -->
-        <OrderPay ref="payOrder" :show="showOrderPay" v-on:paySuccess="paySuccess" v-on:closeOrderPay="closeOrderPay"></OrderPay>
+        <OrderPay ref="payOrder" :show="showOrderPay" v-on:paySuccess="paySuccess" v-on:closeOrderPay="closeOrderPay" v-on:loginOutMember="loginOutMember"></OrderPay>
 
         <!-- 未制作订单 -->
         <NotDoneOrder ref="notDoneOrder" :show="showNotDoneOrder" v-on:num="num"></NotDoneOrder>

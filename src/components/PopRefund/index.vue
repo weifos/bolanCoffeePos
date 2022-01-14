@@ -22,7 +22,7 @@ import app_g from '@/modules/appGlobal'
 import app_m from "@/modules/appMiddleware"
 
 export default {
-  data() {
+  data () {
     return {
       order: {
         id: 0
@@ -40,14 +40,14 @@ export default {
   },
   methods: {
     //初始化
-    init(data, item) {
+    init (data, item) {
       this.buyCount = 1
       this.order = data
       this.detail = item
       this.detail.unit_price = item.avg_unit_amount
     },
     //减
-    sub() {
+    sub () {
       if (this.buyCount <= 1) {
         this.buyCount = 1
         return
@@ -56,7 +56,7 @@ export default {
       }
     },
     //添加数量
-    add() {
+    add () {
       if (this.buyCount + this.order.refund_count >= this.detail.count) {
         this.buyCount = this.detail.count - this.order.refund_count
         return
@@ -64,11 +64,11 @@ export default {
         this.buyCount++
       }
     },
-    cancel() {
+    cancel () {
       this.$emit('cancelRefund')
     },
     //退款
-    submit() {
+    submit () {
       let that = this
       that.order.created_user_id = that.UserInfo.user.id
       that.detail.count = that.buyCount
@@ -213,12 +213,13 @@ export default {
       this.api_211()
     },
     //退货退款
-    api_211() {
+    api_211 () {
       let that = this
 
       //这里签名失败，暂时处理办法
       delete that.order.whole_discount
       delete that.order.whole_dis_amount
+      that.order.vip_ratio = that.order.vip_ratio.toFixed(2)
       api.post(api.api_211, api.getSign({
         OrderReturns: that.order
       }), function (vue, res) {
@@ -242,7 +243,7 @@ export default {
       })
     },
     //获取支付流水
-    getFlow() {
+    getFlow () {
       return {
         store_id: app_g.getPos().store_id,
         serial_no: app_g.util.getSerialNum('T'),
@@ -264,7 +265,7 @@ export default {
       }
     }
   },
-  created() {
+  created () {
   }
 }
 

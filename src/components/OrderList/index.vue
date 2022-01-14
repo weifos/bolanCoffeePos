@@ -78,7 +78,7 @@ export default {
     Pager,
     PopWrap
   },
-  data() {
+  data () {
     return {
       curIndex: 0,
       //显示退款
@@ -101,7 +101,7 @@ export default {
     }
   },
   methods: {
-    init() {
+    init () {
       let params = this.getSearchData()
       //
       this.result = []
@@ -109,7 +109,7 @@ export default {
       setTimeout(() => { this.$refs.page.init(params) }, 10)
     },
     //获取查询数据
-    getSearchData() {
+    getSearchData () {
       let that = this
       let item = that.statusList[that.curIndex]
       let status = -1
@@ -133,14 +133,14 @@ export default {
       }
     },
     //页码点击事件
-    onClickItem(index) {
+    onClickItem (index) {
       this.curIndex = index
       this.result = []
       let params = this.getSearchData()
       this.$refs.page.execute(params)
     },
     //加载订单
-    pagerUpdate(data) {
+    pagerUpdate (data) {
       this.result = []
       if (data.orders.length) {
         data.orders.forEach((ele, index) => {
@@ -149,15 +149,15 @@ export default {
       }
     },
     //查看订单详情
-    goDetails(item) {
+    goDetails (item) {
       this.$emit('goOrderDetails', item)
     },
     //继续付款
-    goPay(item) {
+    goPay (item) {
       this.$emit('confirmOrder', item.serial_no)
     },
     //获取支付流水
-    getFlow(order) {
+    getFlow (order) {
       return {
         store_id: app_g.getPos().store_id,
         serial_no: app_g.util.getSerialNum('T'),
@@ -179,19 +179,19 @@ export default {
       }
     },
     //全部退款
-    refund(item) {
+    refund (item) {
       let that = this
       this.$vux.confirm.show({
         title: '确认全部退款吗',
-        onCancel() { },
-        onConfirm() {
+        onCancel () { },
+        onConfirm () {
           that.api_215(item)
           return
         }
       })
     },
     //打印小票
-    printReceipt(item) {
+    printReceipt (item) {
       let that = this
       //调起打印
       app_m.print(app_g.getPos().store_id, that.UserInfo.user.id, item.serial_no, 0, () => {
@@ -199,13 +199,15 @@ export default {
       })
     },
     //退货退款
-    api_211(order, returnOrder) {
+    api_211 (order, returnOrder) {
       let that = this
       //临时订单
       let tmpOrder = { ...{}, ...order }
       //设置退款单对象
       tmpOrder.order_no = order.serial_no
       tmpOrder.created_user_id = that.UserInfo.user.id
+      tmpOrder.vip_ratio = tmpOrder.vip_ratio.toFixed(2)
+
       //流水号
       tmpOrder.serial_no = ''
       //退详情
@@ -352,6 +354,7 @@ export default {
         flows.push(flow)
       }
 
+      tmpOrder.vip_ratio = tmpOrder.vip_ratio.toFixed(2)
       //设置退款流水
       tmpOrder.flow = flows
       api.post(api.api_211, api.getSign({
@@ -376,7 +379,7 @@ export default {
       })
     },
     //可退订单（流水和金额）
-    api_215(order) {
+    api_215 (order) {
       let that = this
 
       //这里签名失败，暂时处理办法

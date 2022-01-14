@@ -6,7 +6,7 @@
         <div class="fr text-gray font-size-small">收银台：{{pos.no}}</div>
         <div class="text-gray font-size-small">{{nowTime}}</div>
         <div class="text-gray font-size-small mt5">联网状态：在线</div>
-        <div class="user-info hidden mt10">
+        <div class="user-info hidden mt5">
           <div class="user-img fl">
             <img alt :src="userInfo.head_img" width="100%" height="100%" />
           </div>
@@ -15,14 +15,14 @@
             <div class="user-identity" v-if="member.id > 0">
               <span class="icon icon-arrow dib vam"></span>
               <span class="dib vam" style="font-size:12px;">
-                会员手机：{{member.login_name}}，{{member.level}}折扣：{{member.dis_count * 10}}折
+                手机：{{member.login_name}}，折扣：{{(member.dis_count * 10).toFixed(2)}}折
                 <span class="button-border-cur" @click="cLoginOutMember">退出</span>
               </span>
               <!-- <span class="dib vam ml10">{{userInfo.user_name}}</span> -->
             </div>
             <div class="user-identity" v-if="member.id > 0">
               <span class="icon icon-arrow dib vam"></span>
-              <span class="dib vam" style="font-size:12px;">会员积分：{{member.point}}，电子钱包：{{member.balance }}</span>
+              <span class="dib vam" style="font-size:12px;">{{member.level}}，积分：{{member.point}}，钱包：{{member.balance }}</span>
               <!-- <span class="dib vam ml10">{{userInfo.user_name}}</span> -->
             </div>
           </div>
@@ -153,7 +153,7 @@ export default {
     },
     //会员登录
     memberLogin () {
-      this.$emit("memberLogin");
+      this.$emit("memberLogin")
     },
     //登出登录会员信息
     cLoginOutMember () {
@@ -358,7 +358,7 @@ export default {
       height: 59px;
       overflow: hidden;
       border-radius: 100%;
-      margin-right: 17px;
+      margin-right: 6px;
     }
   }
   .accounts-info {

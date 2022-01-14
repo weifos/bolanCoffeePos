@@ -158,7 +158,10 @@ export default {
       }), function (vue, res) {
         //that.$vux.loading.hide()
         if (res.data.Basis.State == api.state.state_200) {
+
           that.result = res.data.Result
+          that.result.vip_ratio = that.result.vip_ratio.toFixed()
+
           let maxAmount = that.result.vip_dis_amount > that.result.mkt_dis_amount ? that.result.vip_dis_amount : that.result.mkt_dis_amount
           that.discounts = that.result.total_amount - maxAmount
 
